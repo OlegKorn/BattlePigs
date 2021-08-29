@@ -12,6 +12,10 @@ class Pig:
         # define the path where your file is
         self.path = os.path.abspath(os.path.dirname(sys.argv[0])).replace('\\', '/')
         
+        # starting points of flag
+        self.start_point_x = 0
+        self.start_point_y = 0
+
         # define colors
         self.WHITE = '#FFFFFF'
         self.BLUE_RU = '#0033A0'
@@ -21,45 +25,43 @@ class Pig:
         self.YELLOW = '#FFD500'
 
 
-    def create(self):
-        # flag to paste
-        # im_to_paste = Image.open(f'{self.path}/ns-flag.gif')
-        # print(im_to_paste.size)
+    def draw_quotation_mark(self, draw_obj, w, h):
+        quotation_mark_start_point_x = int(w * 0.7)
+        quotation_mark_start_point_y = int(h / 2)
 
+        quotation_mark_x2 = quotation_mark_start_point_x + int(w * 0.055)
+        quotation_mark_y2 = quotation_mark_start_point_y - int(h * 0.015)
+
+        quotation_mark_x3 = w
+        quotation_mark_y3 = 0
+
+        quotation_mark_x4 = w
+        quotation_mark_y4 = h
+
+        quotation_mark_x5 = quotation_mark_start_point_x + int(w * 0.055)
+        quotation_mark_y5 = quotation_mark_start_point_y + int(h * 0.03)
+                    
+        xy = [
+            (quotation_mark_start_point_x, quotation_mark_start_point_y), 
+            (quotation_mark_x2, quotation_mark_y2), 
+            (quotation_mark_x3, quotation_mark_y3), 
+            (quotation_mark_x4, quotation_mark_y4),
+            (quotation_mark_x5, quotation_mark_y5)
+        ]
+
+        draw_obj.polygon(xy, fill="#ddd")
+
+
+    def main(self):
         for pic in os.listdir(self.path):
             if not pic.endswith('.py'):
                 title = (pic.split('.')[0] + '_done').strip()
 
                 with Image.open(pic) as im:
+                    draw = ImageDraw.Draw(im)
                     print(im.width, im.height)
 
-                    start_point_x = int(im.width * 0.7)
-                    start_point_y = int(im.height / 2)
-
-                    x2 = start_point_x + int(im.width * 0.055)
-                    y2 = start_point_y - int(im.height * 0.015)
-
-                    x3 = im.width
-                    y3 = 0
-
-                    x4 = im.width
-                    y4 = im.height
-
-                    x5 = start_point_x + int(im.width * 0.055)
-                    y5 = start_point_y + int(im.height * 0.03)
-                    
-                    xy = [
-                        (start_point_x, start_point_y), 
-                        (x2, y2), 
-                        (x3 ,y3), 
-                        (x4 ,y4),
-                        (x5, y5)
-                    ]
-
-                    draw = ImageDraw.Draw(im)
-                    # draw.polygon(xy, fill="#ddd")
-
-                    # im.paste(im_to_paste, (0, 0))
+                    self.draw_quotation_mark(draw, im.width, im.height)
                     self.draw_russian_banner(draw, im.width, im.height)
 
                     # im.save(f'{title}.jpeg')
@@ -68,31 +70,30 @@ class Pig:
                     print(f'Created: {title}')
 
 
-    def draw_russian_banner(self, draw, w, h):
+    def draw_russian_banner(self, draw_obj, w, h):
         '''
         ImageDraw.polygon(xy, fill=None, outline=None)
+
+        Draws a RUS banner in the upper left corner
         Params:
           -- xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] or numeric values like [x, y, x, y, ...].
           -- outline – Color to use for the outline
           -- fill – Color to use for the point
         '''
-        # starting points of flag
-        start_point_x = 0
-        start_point_y = 0
 
         # flag stripes params
         stripe_w = int(w * 0.35)
         stripe_h = int(h * 0.05)
         
-        ru_stripe_1 = [(start_point_x, start_point_y), (stripe_w, stripe_h)]
-        ru_stripe_2 = [(start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
-        ru_stripe_3 = [(start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
+        ru_stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
+        ru_stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
+        ru_stripe_3 = [(self.start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
 
-        draw.rectangle(ru_stripe_1, self.WHITE)
-        draw.rectangle(ru_stripe_2, self.RED)
-        draw.rectangle(ru_stripe_3, self.BLUE_RU)
+        draw_obj.rectangle(ru_stripe_1, self.WHITE)
+        draw_obj.rectangle(ru_stripe_2, self.RED)
+        draw_obj.rectangle(ru_stripe_3, self.BLUE_RU)
 
 
 
 p = Pig()
-p.create()
+p.main()
