@@ -108,8 +108,15 @@ class Pig:
         draw_obj.rectangle(stripe_2, self.YELLOW)
 
 
+    def insert_flag(self, im, path):
+        im_to_paste = Image.open(f'{self.path}/_flag_bytan_new.jpg')
+        resized_flag = im_to_paste.resize((100, 60))
+        im.paste(resized_flag)
+        im.save(f'{self.path}/FLAG.jpg')
+
+
     def main(self):
-        for pic in os.listdir(self.path):
+        for pic in os.listdir(self.path)[0:2]:
             number_of_files = len(os.listdir(self.path))
 
             if (not pic.endswith('.py')) and (not pic.endswith('.log')):
@@ -129,6 +136,9 @@ class Pig:
                     self.draw_russian_banner(draw, im.width, im.height)
                     im.save(f'RUS_{title}.jpeg')
                     print(f'Created: RUS_{title}.jpeg')
+
+                    # insert flag
+                    self.insert_flag(im, self.path)
 
 
 
