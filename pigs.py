@@ -5,7 +5,7 @@ import os
 
 class Pig:
     '''
-    Creates pics with quotation marks
+    Creates pics with wuotation marks
     '''
 
     def __init__(self):
@@ -69,9 +69,9 @@ class Pig:
         stripe_w = int(w * 0.35)
 
         if w > h:
-            stripe_h = int(w * 0.05)
+            stripe_h = int(h * 0.1)
         if h > w:
-            stripe_h = int(h * 0.05)
+            stripe_h = int(w * 0.1)
 
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
@@ -97,9 +97,9 @@ class Pig:
         stripe_w = int(w * 0.35)
         
         if w > h:
-            stripe_h = int(w * 0.05)
+            stripe_h = int(h * 0.15)
         if h > w:
-            stripe_h = int(h * 0.05)
+            stripe_h = int(w * 0.15)
 
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
