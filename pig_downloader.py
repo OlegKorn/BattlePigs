@@ -50,29 +50,25 @@ class PigDownloader:
                 url = _.split('g:')[0] + 'g'
                 title = _.split('g:')[1].replace(' ', '_')
 
-                print(url, title)
-                '''
                 session = requests.Session()
                 try:
-                    img_r_ = session.get(_)
+                    img_r_ = session.get(url)
                 except Exception as e:
                     print(e)
                     continue 
 
                 con = img_r_.content
 
-                file_name = f'{path}/{artist_name}/{title}_{n}.jpg'
+                file_name = f'{path}/{title}.jpg'
                 
                 outf = open(file_name, "wb")
                 outf.write(con)
                 outf.close()
 
-                print(f'{img_to_print}  :  {title}  ->  {n} from {num_of_lines}') 
+                print(f'{title} - {n} from {num_of_lines}') 
                 
                 n += 1                
                 
-                '''
-
         except Exception as e:
             raise(e)
             pass 
