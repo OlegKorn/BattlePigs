@@ -11,7 +11,7 @@ class Pig:
     def __init__(self):
         # define the path where your file is
         self.path = os.path.abspath(os.path.dirname(sys.argv[0])).replace('\\', '/')
-        
+
         # starting points of flag
         self.start_point_x = 0
         self.start_point_y = 0
@@ -23,6 +23,8 @@ class Pig:
 
         self.BLUE_UKR = '#005BBB'
         self.YELLOW = '#FFD500'
+
+        self.QUOTATION_COLOR = '#ddd'
 
 
     def draw_quotation_mark(self, draw_obj, w, h):
@@ -49,7 +51,7 @@ class Pig:
             (quotation_mark_x5, quotation_mark_y5)
         ]
 
-        draw_obj.polygon(xy, fill="#ddd")
+        draw_obj.polygon(xy, fill=self.QUOTATION_COLOR)
 
 
     def main(self):
@@ -62,7 +64,8 @@ class Pig:
                     print(im.width, im.height)
 
                     self.draw_quotation_mark(draw, im.width, im.height)
-                    self.draw_russian_banner(draw, im.width, im.height)
+                    self.draw_ukrainian_banner(draw, im.width, im.height)
+
 
                     # im.save(f'{title}.jpeg')
                     im.show()
@@ -85,13 +88,35 @@ class Pig:
         stripe_w = int(w * 0.35)
         stripe_h = int(h * 0.05)
         
-        ru_stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
-        ru_stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
-        ru_stripe_3 = [(self.start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
+        stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
+        stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
+        stripe_3 = [(self.start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
 
-        draw_obj.rectangle(ru_stripe_1, self.WHITE)
-        draw_obj.rectangle(ru_stripe_2, self.RED)
-        draw_obj.rectangle(ru_stripe_3, self.BLUE_RU)
+        draw_obj.rectangle(stripe_1, self.WHITE)
+        draw_obj.rectangle(stripe_2, self.RED)
+        draw_obj.rectangle(stripe_3, self.BLUE_RU)
+
+
+    def draw_ukrainian_banner(self, draw_obj, w, h):
+        '''
+        ImageDraw.polygon(xy, fill=None, outline=None)
+
+        Draws a UKR banner in the upper left corner
+        Params:
+          -- xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] or numeric values like [x, y, x, y, ...].
+          -- outline – Color to use for the outline
+          -- fill – Color to use for the point
+        '''
+
+        # flag stripes params
+        stripe_w = int(w * 0.35)
+        stripe_h = int(h * 0.075)
+        
+        stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
+        stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
+
+        draw_obj.rectangle(stripe_1, self.BLUE_UKR)
+        draw_obj.rectangle(stripe_2, self.YELLOW)
 
 
 
