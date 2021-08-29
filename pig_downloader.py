@@ -43,12 +43,15 @@ class PigDownloader:
         num_of_lines = sum(1 for _ in f)
         n = 0
 
-        forbidden_symbols = ('*,<>:\'\\"/\|?=')
-
         try: 
             for _ in f:
                 _ = _.strip()
-        
+                
+                url = _.split('g:')[0] + 'g'
+                title = _.split('g:')[1].replace(' ', '_')
+
+                print(url, title)
+                '''
                 session = requests.Session()
                 try:
                     img_r_ = session.get(_)
@@ -68,6 +71,7 @@ class PigDownloader:
                 
                 n += 1                
                 
+                '''
 
         except Exception as e:
             raise(e)
@@ -107,7 +111,7 @@ class PigDownloader:
 
 
 p = PigDownloader()
-# p.download_images()
-p.write_pigs_to_log()
+p.download_images()
+# p.write_pigs_to_log()
 
 
