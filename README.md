@@ -1,6 +1,6 @@
 # Battle Pigs Generator
 ## Генератор боевых свиней для 2ch двача
-Скачивайте картинки в ту же папку, где скрипт
+Скачивайте картинки в ту же папку, где лежит файл скрипта, и запускайте его
 
 ### Drawing quotation marks on the pics at the right part of pic   
 ![RUS_a_pair_of_guinea_pigs_done](https://user-images.githubusercontent.com/48214249/131245845-07998485-6a32-4388-b6ee-a034ff028114.jpeg)
