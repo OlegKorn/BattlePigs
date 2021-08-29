@@ -56,6 +56,8 @@ class Pig:
 
     def main(self):
         for pic in os.listdir(self.path):
+            number_of_files = len(os.listdir(self.path))
+
             if not pic.endswith('.py'):
                 title = (pic.split('.')[0] + '_done').strip()
 
@@ -65,12 +67,13 @@ class Pig:
 
                     self.draw_quotation_mark(draw, im.width, im.height)
                     self.draw_ukrainian_banner(draw, im.width, im.height)
-
-
-                    # im.save(f'{title}.jpeg')
-                    im.show()
-
-                    print(f'Created: {title}')
+                    im.save(f'UKR_{title}.jpeg')                    
+                    print(f'Created: UKR_{title}.jpeg')
+                    
+                    self.draw_quotation_mark(draw, im.width, im.height)
+                    self.draw_russian_banner(draw, im.width, im.height)
+                    im.save(f'RUS_{title}.jpeg')
+                    print(f'Created: RUS_{title}.jpeg')
 
 
     def draw_russian_banner(self, draw_obj, w, h):
