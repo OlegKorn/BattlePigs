@@ -11,9 +11,6 @@ class Pig:
     def __init__(self):
         # define the path where your file is
         self.path = os.path.abspath(os.path.dirname(sys.argv[0])).replace('\\', '/')
-        self.created = self.path + '/created'
-        if not os.path.exists(self.created):
-            os.mkdir(self.created) 
         
 
     def create(self):
