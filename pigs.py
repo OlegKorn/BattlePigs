@@ -58,7 +58,6 @@ class Pig:
     def draw_russian_banner(self, draw_obj, w, h):
         '''
         ImageDraw.polygon(xy, fill=None, outline=None)
-
         Draws a RUS banner in the upper left corner
         Params:
           -- xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] or numeric values like [x, y, x, y, ...].
@@ -68,25 +67,20 @@ class Pig:
 
         # flag stripes params
         stripe_w = int(w * 0.35)
-
-        if w > h:
-            stripe_h = int(h * 0.1)
-        if h > w:
-            stripe_h = int(w * 0.1)
+        stripe_h = int(h * 0.115)
 
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
         stripe_3 = [(self.start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
 
         draw_obj.rectangle(stripe_1, self.WHITE)
-        draw_obj.rectangle(stripe_2, self.RED)
-        draw_obj.rectangle(stripe_3, self.BLUE_RU)
+        draw_obj.rectangle(stripe_2, self.BLUE_RU)
+        draw_obj.rectangle(stripe_3, self.RED)
 
 
     def draw_ukrainian_banner(self, draw_obj, w, h):
         '''
         ImageDraw.polygon(xy, fill=None, outline=None)
-
         Draws a UKR banner in the upper left corner
         Params:
           -- xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] or numeric values like [x, y, x, y, ...].
@@ -96,11 +90,7 @@ class Pig:
 
         # flag stripes params
         stripe_w = int(w * 0.35)
-        
-        if w > h:
-            stripe_h = int(h * 0.15)
-        if h > w:
-            stripe_h = int(w * 0.15)
+        stripe_h = int(h * 0.15)
 
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
@@ -109,52 +99,39 @@ class Pig:
         draw_obj.rectangle(stripe_2, self.YELLOW)
 
 
-    def insert_flag(self, im=None, path=None, w=None, h=None):
-        # flag files
-        flags = os.listdir(f'{self.path}/banners')
-        flag = random.choice(flags)
-        print(flag)
-        
-        im_to_paste = Image.open(f'{self.path}/banners/{flag}')
-
-        resized_flag = im_to_paste.resize((110, 55))
-
-        if (w != 0 and h):
-            resized_flag = im_to_paste.resize((int(w), int(h*0.3)))
-
-        if (w == 0 and h):
-            resized_flag = im_to_paste.resize((0, int(h * 0.3)))    
-        
+    '''
+    def insert_flag(self, im):
+        im_to_paste = Image.open(f'{self.path}/banners/Палестинский_флаг.jpg')
+        resized_flag = im_to_paste.resize((100, 60))
         im.paste(resized_flag)
         im.save(f'{self.path}/FLAG.jpg')
+    '''
         
 
     def main(self):
-        for pic in os.listdir(self.path)[0:10]:
-            number_of_files = len(os.listdir(self.path))
+        banners_path = f'{self.path}/banners'
 
-            if (not pic.endswith('.py')) and (not pic.endswith('.log')):
-                title = (pic.split('.')[0] + '_done').strip()
+        for pic in os.listdir(self.path):
+            if not os.path.isdir(pic):
+                number_of_files = len(os.listdir(self.path))
 
-                with Image.open(pic) as im:
-                    draw = ImageDraw.Draw(im)
-                    print()
-                    print(im.width, im.height)
+                if (not pic.endswith('.py')) and (not pic.endswith('.log')):
+                    title = (pic.split('.')[0]).strip()
 
-                    '''
-                    self.draw_quotation_mark(draw, im.width, im.height)
-                    self.draw_ukrainian_banner(draw, im.width, im.height)
-                    im.save(f'UKR_{title}.jpeg')                    
-                    print(f'Created: UKR_{title}.jpeg')
-                    
-                    '''
-                    self.draw_quotation_mark(draw, im.width, im.height)
-                    self.draw_russian_banner(draw, im.width, im.height)
-                    im.save(f'RUS_{title}.jpeg')
-                    print(f'Created: RUS_{title}.jpeg')
-                    
-                    # insert flag
-                    self.insert_flag(im, self.path, im.height)
+                    with Image.open(pic) as im:
+                        draw = ImageDraw.Draw(im)
+                        print()
+                        print(im.width, im.height)
+
+                        self.draw_quotation_mark(draw, im.width, im.height)
+                        self.draw_ukrainian_banner(draw, im.width, im.height)
+                        im.save(f'UKR_{title}.jpeg')                    
+                        print(f'Created: UKR_{title}.jpeg')
+                        
+                        self.draw_quotation_mark(draw, im.width, im.height)
+                        self.draw_russian_banner(draw, im.width, im.height)
+                        im.save(f'RUS_{title}.jpeg')
+                        print(f'Created: RUS_{title}.jpeg')
 
 
 
