@@ -12,20 +12,32 @@ class Pig:
         # define the path where your file is
         self.path = os.path.abspath(os.path.dirname(sys.argv[0])).replace('\\', '/')
         
+        # define colors
+        self.WHITE = '#FFFFFF'
+        self.BLUE_RU = '#0033A0'
+        self.RED = '#DA291C'
+
+        self.BLUE_UKR = '#005BBB'
+        self.YELLOW = '#FFD500'
+
 
     def create(self):
+        # flag to paste
+        # im_to_paste = Image.open(f'{self.path}/ns-flag.gif')
+        # print(im_to_paste.size)
+
         for pic in os.listdir(self.path):
-            
             if not pic.endswith('.py'):
                 title = (pic.split('.')[0] + '_done').strip()
 
                 with Image.open(pic) as im:
+                    print(im.width, im.height)
 
-                    start_point_x = int(im.width * .7)
+                    start_point_x = int(im.width * 0.7)
                     start_point_y = int(im.height / 2)
 
-                    x2 = start_point_x + int(im.width * .055)
-                    y2 = start_point_y - int(im.height * .015)
+                    x2 = start_point_x + int(im.width * 0.055)
+                    y2 = start_point_y - int(im.height * 0.015)
 
                     x3 = im.width
                     y3 = 0
@@ -33,8 +45,8 @@ class Pig:
                     x4 = im.width
                     y4 = im.height
 
-                    x5 = start_point_x + int(im.width * .055)
-                    y5 = start_point_y + int(im.height * .03)
+                    x5 = start_point_x + int(im.width * 0.055)
+                    y5 = start_point_y + int(im.height * 0.03)
                     
                     xy = [
                         (start_point_x, start_point_y), 
@@ -45,11 +57,41 @@ class Pig:
                     ]
 
                     draw = ImageDraw.Draw(im)
-                    draw.polygon(xy, fill="#ddd")
+                    # draw.polygon(xy, fill="#ddd")
 
-                    im.save(f'{title}.jpeg')
+                    # im.paste(im_to_paste, (0, 0))
+                    self.draw_russian_banner(draw, im.width, im.height)
+
+                    # im.save(f'{title}.jpeg')
+                    im.show()
 
                     print(f'Created: {title}')
+
+
+    def draw_russian_banner(self, draw, w, h):
+        '''
+        ImageDraw.polygon(xy, fill=None, outline=None)
+        Params:
+          -- xy – Sequence of either 2-tuples like [(x, y), (x, y), ...] or numeric values like [x, y, x, y, ...].
+          -- outline – Color to use for the outline
+          -- fill – Color to use for the point
+        '''
+        # starting points of flag
+        start_point_x = 0
+        start_point_y = 0
+
+        # flag stripes params
+        stripe_w = int(w * 0.35)
+        stripe_h = int(h * 0.05)
+        
+        ru_stripe_1 = [(start_point_x, start_point_y), (stripe_w, stripe_h)]
+        ru_stripe_2 = [(start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
+        ru_stripe_3 = [(start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
+
+        draw.rectangle(ru_stripe_1, self.WHITE)
+        draw.rectangle(ru_stripe_2, self.RED)
+        draw.rectangle(ru_stripe_3, self.BLUE_RU)
+
 
 
 p = Pig()
