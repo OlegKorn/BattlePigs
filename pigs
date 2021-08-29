@@ -1,0 +1,59 @@
+import sys
+from PIL import Image, ImageDraw
+import os
+
+
+class Pig:
+    '''
+    Creates pics with wuotation marks
+    '''
+
+    def __init__(self):
+        # define the path where your file is
+        self.path = os.path.abspath(os.path.dirname(sys.argv[0])).replace('\\', '/')
+        self.created = self.path + '/created'
+        if not os.path.exists(self.created):
+            os.mkdir(self.created) 
+        
+
+    def create(self):
+        for pic in os.listdir(self.path):
+            
+            if not pic.endswith('.py'):
+                title = (pic.split('.')[0] + '_done').strip()
+
+                with Image.open(pic) as im:
+
+                    start_point_x = int(im.width * .7)
+                    start_point_y = int(im.height / 2)
+
+                    x2 = start_point_x + int(im.width * .055)
+                    y2 = start_point_y - int(im.height * .015)
+
+                    x3 = im.width
+                    y3 = 0
+
+                    x4 = im.width
+                    y4 = im.height
+
+                    x5 = start_point_x + int(im.width * .055)
+                    y5 = start_point_y + int(im.height * .03)
+                    
+                    xy = [
+                        (start_point_x, start_point_y), 
+                        (x2, y2), 
+                        (x3 ,y3), 
+                        (x4 ,y4),
+                        (x5, y5)
+                    ]
+
+                    draw = ImageDraw.Draw(im)
+                    draw.polygon(xy, fill="#ddd")
+
+                    im.save(f'{title}.jpeg')
+
+                    print(f'Created: {title}')
+
+
+p = Pig()
+p.create()
