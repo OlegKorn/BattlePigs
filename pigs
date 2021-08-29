@@ -28,52 +28,30 @@ class Pig:
 
 
     def draw_quotation_mark(self, draw_obj, w, h):
-        quotation_mark_start_point_x = int(w * 0.7)
-        quotation_mark_start_point_y = int(h / 2)
+        start_point_x = int(w * 0.7)
+        start_point_y = int(h / 2)
 
-        quotation_mark_x2 = quotation_mark_start_point_x + int(w * 0.055)
-        quotation_mark_y2 = quotation_mark_start_point_y - int(h * 0.015)
+        x2 = start_point_x + int(w * 0.055)
+        y2 = start_point_y - int(h * 0.015)
 
-        quotation_mark_x3 = w
-        quotation_mark_y3 = 0
+        x3 = w
+        y3 = 0
 
-        quotation_mark_x4 = w
-        quotation_mark_y4 = h
+        x4 = w
+        y4 = h
 
-        quotation_mark_x5 = quotation_mark_start_point_x + int(w * 0.055)
-        quotation_mark_y5 = quotation_mark_start_point_y + int(h * 0.03)
+        x5 = start_point_x + int(w * 0.055)
+        y5 = start_point_y + int(h * 0.03)
                     
         xy = [
-            (quotation_mark_start_point_x, quotation_mark_start_point_y), 
-            (quotation_mark_x2, quotation_mark_y2), 
-            (quotation_mark_x3, quotation_mark_y3), 
-            (quotation_mark_x4, quotation_mark_y4),
-            (quotation_mark_x5, quotation_mark_y5)
+            (start_point_x, start_point_y), 
+            (x2, y2), 
+            (x3, y3), 
+            (x4, y4),
+            (x5, y5)
         ]
 
         draw_obj.polygon(xy, fill=self.QUOTATION_COLOR)
-
-
-    def main(self):
-        for pic in os.listdir(self.path):
-            number_of_files = len(os.listdir(self.path))
-
-            if not pic.endswith('.py'):
-                title = (pic.split('.')[0] + '_done').strip()
-
-                with Image.open(pic) as im:
-                    draw = ImageDraw.Draw(im)
-                    print(im.width, im.height)
-
-                    self.draw_quotation_mark(draw, im.width, im.height)
-                    self.draw_ukrainian_banner(draw, im.width, im.height)
-                    im.save(f'UKR_{title}.jpeg')                    
-                    print(f'Created: UKR_{title}.jpeg')
-                    
-                    self.draw_quotation_mark(draw, im.width, im.height)
-                    self.draw_russian_banner(draw, im.width, im.height)
-                    im.save(f'RUS_{title}.jpeg')
-                    print(f'Created: RUS_{title}.jpeg')
 
 
     def draw_russian_banner(self, draw_obj, w, h):
@@ -89,8 +67,12 @@ class Pig:
 
         # flag stripes params
         stripe_w = int(w * 0.35)
-        stripe_h = int(h * 0.05)
-        
+
+        if w > h:
+            stripe_h = int(h * 0.05)
+        if h > w:
+            stripe_h = int(w * 0.05)
+
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
         stripe_3 = [(self.start_point_x, stripe_h * 2), (stripe_w, stripe_h * 3)]
@@ -113,13 +95,40 @@ class Pig:
 
         # flag stripes params
         stripe_w = int(w * 0.35)
-        stripe_h = int(h * 0.075)
         
+        if w > h:
+            stripe_h = int(h * 0.05)
+        if h > w:
+            stripe_h = int(w * 0.05)
+
         stripe_1 = [(self.start_point_x, self.start_point_y), (stripe_w, stripe_h)]
         stripe_2 = [(self.start_point_x, stripe_h), (stripe_w, stripe_h * 2)]
 
         draw_obj.rectangle(stripe_1, self.BLUE_UKR)
         draw_obj.rectangle(stripe_2, self.YELLOW)
+
+
+    def main(self):
+        for pic in os.listdir(self.path):
+            number_of_files = len(os.listdir(self.path))
+
+            if (not pic.endswith('.py')) and (not pic.endswith('.log')):
+                title = (pic.split('.')[0] + '_done').strip()
+
+                with Image.open(pic) as im:
+                    draw = ImageDraw.Draw(im)
+                    print()
+                    print(im.width, im.height)
+
+                    self.draw_quotation_mark(draw, im.width, im.height)
+                    self.draw_ukrainian_banner(draw, im.width, im.height)
+                    im.save(f'UKR_{title}.jpeg')                    
+                    print(f'Created: UKR_{title}.jpeg')
+                    
+                    self.draw_quotation_mark(draw, im.width, im.height)
+                    self.draw_russian_banner(draw, im.width, im.height)
+                    im.save(f'RUS_{title}.jpeg')
+                    print(f'Created: RUS_{title}.jpeg')
 
 
 
